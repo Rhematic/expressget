@@ -1,9 +1,9 @@
 let express = require('express');
 let app = express();
 const port = 5001
+app.use(express.json())
 
 const quoteList = require('./quoteList')
-
 app.use(express.static('server/public'));
 
 //when we visit localhost:5001/quotes
@@ -15,6 +15,16 @@ app.get('/quotes', function(req, res){
     //so we can see it in our browser
     res.send(quoteList)
 })
+
+app.post('/quotes', (req,res) => {
+    console.log('request.', req);
+    console.log('get a POST request.', req.body);
+
+    let quote = req.body
+    quoteList.push(quote)
+    res.sendStatus(201);
+})
+
 
 app.listen(port, function() { 
     console.log('listening on port', port);
